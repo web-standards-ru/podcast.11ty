@@ -1,0 +1,94 @@
+---
+permalink: index.txt
+---
+{%- for episode in collections.episode -%}
+
+    {%- if episode.data.language == 'ru' -%}
+        {% set localeHosts = 'Ведущие' %}
+        {% set localeTopics = 'Темы' %}
+        {% set localeDate = episode.date | ruDate %}
+        {% set localeLinks %}
+            Слушайте свежие эпизоды в
+            Google Podcasts — {{ links.listen.google }}
+            Apple Podcasts — {{ links.listen.apple }}
+            CastBox — {{ links.listen.castbox }}
+            Pocket Casts — {{ links.listen.pocket }}
+            Overcast — {{ links.listen.overcast }}
+            ВКонтакте — {{ links.listen.vk }}
+            Яндекс.Музыке — {{ links.listen.yandex }}
+            Spotify — {{ links.listen.spotify }}
+            YouTube — {{ links.listen.youtube }}
+            SoundCloud — {{ links.listen.soundcloud }}
+            или подписывайтесь на RSS — {{ links.listen.rss }}
+
+            Читайте новости в
+            Твиттере — {{ links.read.twitter }}
+            ВКонтакте — {{ links.read.vk }}
+            Фейсбуке — {{ links.read.facebook }}
+            Телеграме — {{ links.read.telegram }}
+
+            Поддержите нас
+            на Патреоне — {{ links.support.patreon }}
+            или переводом
+            на Яндекс.Деньги — {{ links.support.yandex }}
+            или PayPal — {{ links.support.paypal }}
+
+            Обсуждайте в Слаке — {{ links.discuss.slack }}
+        {% endset %}
+    {%- else -%}
+        {% set localeHosts = 'Hosts' %}
+        {% set localeTopics = 'Topics' %}
+        {% set localeDate = episode.date | enDate %}
+        {% set localeLinks %}
+            Listen to new episodes in
+            Google Podcasts — {{ links.listen.google }}
+            Apple Podcasts — {{ links.listen.apple }}
+            CastBox — {{ links.listen.castbox }}
+            Pocket Casts — {{ links.listen.pocket }}
+            Overcast — {{ links.listen.overcast }}
+            VK — {{ links.listen.vk }}
+            Yandex.Music — {{ links.listen.yandex }}
+            Spotify — {{ links.listen.spotify }}
+            YouTube — {{ links.listen.youtube }}
+            SoundCloud — {{ links.listen.soundcloud }}
+            or subscribe to RSS — {{ links.listen.rss }}
+
+            Read news on
+            Twitter — {{ links.read.twitter }}
+            VK — {{ links.read.vk }}
+            Facebook — {{ links.read.facebook }}
+            Telegram — {{ links.read.telegram }}
+
+            Support us
+            on Patreon — {{ links.support.patreon }}
+            or via transfer
+            to Yandex.Money — {{ links.support.yandex }}
+            or PayPal — {{ links.support.paypal }}
+
+            Discuss in Slack — {{ links.discuss.slack }}
+        {% endset %}
+    {%- endif -%}
+
+    {%- set episodeDescription %}
+        {{ localeHosts }}
+        {% for host in episode.data.hosts -%}
+            — {{ host }}
+        {% endfor %}
+
+        {{ localeTopics }}
+        {%- if episode.data.chapters -%}
+            {%- for chapter in episode.data.chapters %}
+            — {{ chapter.time }} {{ chapter.title }}
+            {%- endfor %}
+        {%- endif %}
+        {{ localeLinks }}
+        {{ episode.templateContent }}
+    {% endset %}
+
+    {%- if loop.first -%}
+        {{- episode.fileSlug }}. {{ episode.data.title }}
+
+        {{ episodeDescription }}
+    {%- endif -%}
+
+{%- endfor -%}
