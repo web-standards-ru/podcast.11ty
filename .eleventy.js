@@ -21,7 +21,8 @@ module.exports = (config) => {
                     hour: 'numeric',
                     minute: 'numeric',
                     second: 'numeric',
-                    hour12: false,
+//                     hour12: false,
+                    hourCycle: 'h23',
                     timeZone: 'UTC',
                 }).format(date);
             })
