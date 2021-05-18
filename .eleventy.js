@@ -1,25 +1,14 @@
 const fs = require('fs');
 const htmlmin = require('html-minifier');
 const markdown = require('markdown-it')({ html: true });
-const music = require('music-metadata');
 const prettydata = require('pretty-data');
+const getDuration = require('./src/helpers/get-duration');
 
 module.exports = (config) => {
     config.addFilter('length', (path) => {
         const stats = fs.statSync(path);
         return stats.size;
     });
-
-    const getDuration = (path) => {
-        return music.parseFile(path)
-            .then(metadata => {
-                const duration = parseFloat(metadata.format.duration) || 0;
-                return new Date(Math.ceil(duration) * 1000).toISOString().substr(11, 8);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
 
     config.addNunjucksAsyncFilter('duration', async (path, callback) => {
         const duration = await getDuration(path);
